@@ -7,6 +7,7 @@ public class PlayerMoter : NetworkBehaviour
 {
 
     public Camera cam;
+    
 
 
     private Vector3 movement = Vector3.zero;
@@ -15,11 +16,14 @@ public class PlayerMoter : NetworkBehaviour
     private Rigidbody rb;
     void Start()
     {
+        
         rb = GetComponent<Rigidbody>();
         if (isLocalPlayer)
         {
+            Camera.main.enabled = false;
             if (!cam.enabled)
                 cam.enabled = true;
+            
         }
         else
         {

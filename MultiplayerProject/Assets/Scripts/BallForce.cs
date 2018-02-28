@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class BallForce : MonoBehaviour
+public class BallForce : NetworkBehaviour
 {
     public Transform spawnpoint;
+    private Vector3 pos;
     public GameObject whatToSpawn;
     public float power;
     void OnCollisionEnter(Collision c)
@@ -24,8 +26,11 @@ public class BallForce : MonoBehaviour
         }
         if (c.gameObject.tag == "Goal")
         {
-            Destroy(gameObject);
-            whatToSpawn = Instantiate(whatToSpawn, spawnpoint.transform.position, Quaternion.Euler(0, 0, 0)) as GameObject;
+            //Destroy(gameObject);
+            //whatToSpawn = Network.Instantiate(whatToSpawn, spawnpoint.transform.position, Quaternion.Euler(0, 0, 0),0) as GameObject;
+            pos = spawnpoint.position;
+            gameObject.transform.localPosition = pos;
         }
     }
+  
 }
