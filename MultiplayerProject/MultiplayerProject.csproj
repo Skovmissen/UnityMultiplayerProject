@@ -282,7 +282,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\BallForce.cs" />
     <Compile Include="Assets\Scripts\MovementController.cs" />
+    <Compile Include="Assets\Scripts\PlayerColor.cs" />
+    <Compile Include="Assets\Scripts\PlayerMoter.cs" />
     <Compile Include="Assets\Scripts\RandomPlayerColor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

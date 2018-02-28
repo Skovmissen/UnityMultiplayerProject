@@ -1,22 +1,43 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
+[RequireComponent(typeof(PlayerMoter))]
+[RequireComponent(typeof(ConfigurableJoint))]
+public class MovementController : NetworkBehaviour
+{
 
-public class MovementController : MonoBehaviour {
-    public float speed;
-    private Rigidbody rb;
-	// Use this for initialization
-	void Start () {
-        rb = GetComponent<Rigidbody>();
+    public float moveSpeed;
+    public float lookSensitivity;
+    public float force = 3;
+
+    private PlayerMoter moter;
+
+    void Start()
+    {
+        moter = GetComponent<PlayerMoter>();
+
+
     }
 
     void FixedUpdate()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+        // Udregn og send spillerens bevægelse
+        float moveY = Input.GetAxisRaw("Horizontal");
+        float moveX = Input.GetAxisRaw("Vertical");
+        Vector3 MoveHorizon = -transform.right * moveX;
+        Vector3 MoveVertical = transform.forward * moveY;
+        Vector3 movement = (MoveHorizon + MoveVertical).normalized * moveSpeed;
+        moter.Move(movement);
 
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-
-        rb.AddForce(movement * speed);
+        // Udregn og send rotationen omkring spilleren y-akse
+        float yRot = Input.GetAxisRaw("Mouse X");
+        Vector3 rotation = new Vector3(0, yRot, 0) * lookSensitivity;
+        moter.Rotate(rotation);
     }
+
 }
